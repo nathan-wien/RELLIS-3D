@@ -451,7 +451,7 @@ class Trainer():
                           'IoU {iou.val:.3f} ({iou.avg:.3f}) | [{estim}]'.format(
                         epoch, i, len(train_loader), batch_time=self.batch_time_t,
                         data_time=self.data_time_t, loss=losses, hetero_l=hetero_l,acc=acc, iou=iou, lr=lr,
-                        umean=update_mean, ustd=update_std, estim=self.calculate_estimate(epoch, i)))
+                        umean=update_mean, ustd=update_std, estim=self.calculate_estimate(epoch, i)), flush=True)
 
                     save_to_log(self.log, 'log.txt', 'Lr: {lr:.3e} | '
                           'Update: {umean:.3e} mean,{ustd:.3e} std | '
@@ -477,7 +477,7 @@ class Trainer():
                           'IoU {iou.val:.3f} ({iou.avg:.3f}) | [{estim}]'.format(
                         epoch, i, len(train_loader), batch_time=self.batch_time_t,
                         data_time=self.data_time_t, loss=losses, acc=acc, iou=iou, lr=lr,
-                        umean=update_mean, ustd=update_std, estim=self.calculate_estimate(epoch, i)))
+                        umean=update_mean, ustd=update_std, estim=self.calculate_estimate(epoch, i)), flush=True)
 
                     save_to_log(self.log, 'log.txt', 'Lr: {lr:.3e} | '
                                                      'Update: {umean:.3e} mean,{ustd:.3e} std | '
@@ -585,7 +585,7 @@ class Trainer():
                                                      jac=jaccs,
                                                      wces=wces,
                                                      hetero=hetero_l,
-                                                     acc=acc, iou=iou))
+                                                     acc=acc, iou=iou), flush=True)
 
                 save_to_log(self.log, 'log.txt', 'Validation set:\n'
                       'Time avg per batch {batch_time.avg:.3f}\n'
@@ -603,7 +603,7 @@ class Trainer():
                 # print also classwise
                 for i, jacc in enumerate(class_jaccard):
                     print('IoU class {i:} [{class_str:}] = {jacc:.3f}'.format(
-                        i=i, class_str=class_func(i), jacc=jacc))
+                        i=i, class_str=class_func(i), jacc=jacc), flush=True)
                     save_to_log(self.log, 'log.txt', 'IoU class {i:} [{class_str:}] = {jacc:.3f}'.format(
                         i=i, class_str=class_func(i), jacc=jacc))
                     self.info["valid_classes/"+class_func(i)] = jacc

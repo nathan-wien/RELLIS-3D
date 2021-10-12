@@ -1,17 +1,18 @@
 #!/bin/bash
-#SBATCH --time=00:05:00
-#SBATCH --mem=4GB
+#SBATCH --time=48:00:00
+#SBATCH --mem=8GB
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --gres=gpu:2
 
 # Activate conda environment
+echo "GPUS: $CUDA_VISIBLE_DEVICES"
 source ~/.bashrc;
 conda activate salsanext;
 
 # Directories
-DATASET="RELLIS-3D"
-DATASET_DIR="$STOREDIR/datasets/$DATASET/dataset"
+DATASET="Rellis-3D"
+DATASET_DIR="$STOREDIR/datasets/$DATASET"
 LOG_DIR="$STOREDIR/logs"
 
 echo "Training started...";

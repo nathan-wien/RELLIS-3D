@@ -173,5 +173,6 @@ if __name__ == '__main__':
         quit()
 
     # create trainer and start the training
+    print("Creating trainer...", flush=True)
     trainer = Trainer(ARCH, DATA, FLAGS.dataset, FLAGS.log, FLAGS.pretrained,FLAGS.uncertainty)
     trainer.train()
