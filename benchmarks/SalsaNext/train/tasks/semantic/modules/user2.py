@@ -20,6 +20,19 @@ from tasks.semantic.modules.SalsaNext import *
 from tasks.semantic.modules.SalsaNextAdf import *
 from tasks.semantic.postproc.KNN import KNN
 
+from collections import OrderedDict
+
+
+def fix_state_dict(state_dict):
+    new_state_dict = OrderedDict()
+    for k, v in state_dict.items():
+        if 'module' not in k:
+            k = 'module.' + k
+        else:
+            k = k.replace('features.module.', 'module.features.')
+        new_state_dict[k]=v
+    return new_state_dict
+
 
 class User():
   def __init__(self, ARCH, DATA, datadir, logdir, modeldir,split,uncertainty,mc=30):
@@ -66,7 +79,8 @@ class User():
             self.model = nn.DataParallel(self.model)
             w_dict = torch.load(modeldir + "/SalsaNext",
                                 map_location=lambda storage, loc: storage)
-            self.model.load_state_dict(w_dict['state_dict'], strict=True)
+            state_dict = fix_state_dict(w_dict['state_dict'])
+            self.model.load_state_dict(state_dict, strict=True)
 
     # use knn post processing?
     self.post = None
